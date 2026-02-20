@@ -60,6 +60,10 @@
         body {
             padding-top: 100px; /* Space for fixed navbar */
         }
+
+        .analysis-section {
+            min-height: 80vh; /* Keep footer down while loading */
+        }
     </style>
 </head>
 <body>
@@ -277,5 +281,49 @@
 
     <!-- Script for Logic -->
     <script src="script.js"></script>
+    <script>
+        document.getElementById('analysisForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const loadingState = document.getElementById('loadingState');
+            const resultsSection = document.getElementById('resultsSection');
+            const progressBar = document.getElementById('progressBar');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Hide previous results and show loading
+            form.style.visibility = 'hidden'; // Keep height to prevent footer jumping
+            resultsSection.className = 'hidden mt-4';
+            loadingState.style.display = 'flex';
+            
+            // Simulation steps
+            const steps = [
+                { text: 'Mengambil data citra satelit...', progress: 20 },
+                { text: 'Menganalisis tutupan lahan...', progress: 45 },
+                { text: 'Menghitung kepadatan vegetasi...', progress: 70 },
+                { text: 'Mengevaluasi risiko spasial...', progress: 90 },
+                { text: 'Finalisasi laporan...', progress: 100 }
+            ];
+            
+            let currentStep = 0;
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    loadingText.innerText = steps[currentStep].text;
+                    progressBar.style.width = steps[currentStep].progress + '%';
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        form.style.display = 'none'; // Completely remove after loading for results
+                        loadingState.style.display = 'none';
+                        resultsSection.className = 'mt-4 reveal active';
+                        
+                        // Scroll to results
+                        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                }
+            }, 800);
+        });
+    </script>
 </body>
 </html>
