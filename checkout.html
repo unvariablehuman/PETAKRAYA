@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - PETAKRAYA</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="logos.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive-typography.css">
+    
+    <style>
+        
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .checkout-section {
+            padding: 120px 0 80px;
+            min-height: 80vh;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+            .order-summary {
+                order: -1; /* Show summary first on mobile */
+            }
+        }
+
+        /* Form Styling */
+        .checkout-form {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            gap: 16px;
+        }
+
+        .payment-option {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .payment-option:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 51, 102, 0.03);
+        }
+
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .payment-option.selected .radio-circle {
+            border-color: var(--primary-color);
+        }
+
+        .payment-option.selected .radio-circle::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px; height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        /* Order Summary Card */
+        .order-summary {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .plan-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .plan-name-display {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .plan-price-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .plan-period-display {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .summary-features ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .summary-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #edf2f7;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .summary-features li:last-child {
+            border-bottom: none;
+        }
+
+        .total-row {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .verify-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .success-icon {
+            width: 80px; height: 80px;
+            background: #d1fae5;
+            color: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Beranda
+    </a>
+
+    <!-- Checkout Content -->
+    <section class="checkout-section">
+        <div class="container">
+            <div class="section-title" style="margin-bottom: 20px; text-align: left;">
+                <h2>Checkout Layanan</h2>
+                <p>Lengkapi data diri untuk melanjutkan proses aktivasi paket.</p>
+            </div>
+
+            <div class="checkout-grid">
+                <!-- Left: Form -->
+                <div class="checkout-form">
+                    <h3 class="mb-4">Informasi Pemesan</h3>
+                    <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-input" placeholder="Contoh: Budi Santoso" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Institusi/Pribadi</label>
+                            <input type="email" class="form-input" placeholder="nama@perusahaan.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Perusahaan (Opsional)</label>
+                            <input type="text" class="form-input" placeholder="PT Nusantara Property">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nomor WhatsApp</label>
+                            <input type="tel" class="form-input" placeholder="0812..." required>
+                        </div>
+
+                        <h3 class="mb-3 mt-4">Metode Pembayaran</h3>
+                        <div class="payment-methods">
+                            <div class="payment-option selected" onclick="selectPayment(this)">
+                                <div class="radio-circle"></div>
+                                <div style="flex:1"><strong>Bank Transfer</strong> (BCA, Mandiri, BNI)</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment(this)">
+                                <div class="radio-circle"></div>
+                                <div style="flex:1"><strong>Virtual Account</strong> (Otomatis)</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment(this)">
+                                <div class="radio-circle"></div>
+                                <div style="flex:1"><strong>E-Wallet / QRIS</strong></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-shine-effect" style="width: 100%; margin-top: 30px; font-size: 1.1rem;">Lanjut ke Pembayaran</button>
+                        
+                        <div class="text-center mt-3" style="font-size: 0.85rem; color: #64748b;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline; vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            Data Anda terenkripsi dengan aman.
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right: Summary -->
+                <div class="order-summary">
+                    <div class="plan-header">
+                        <div class="plan-name-display" id="summaryName">Basic Plan</div>
+                        <div class="plan-price-display" id="summaryPrice">150K</div>
+                        <span class="plan-period-display" id="summaryPeriod">/analisis</span>
+                        <div class="verify-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Paket Terverifikasi
+                        </div>
+                    </div>
+
+                    <div class="summary-features">
+                        <h4>Fitur Termasuk:</h4>
+                        <ul id="summaryFeatures">
+                            <li>✓ 1x Analisis Lahan</li>
+                            <li>✓ Laporan PDF Standar</li>
+                            <li>✓ Analisis Risiko Dasar</li>
+                        </ul>
+                    </div>
+
+                    <div class="total-row">
+                        <span>Total Pembayaran</span>
+                        <span style="color: var(--primary-color);" id="summaryTotal">Rp 150.000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3>Pemesanan Berhasil!</h3>
+            <p style="color: #666; margin: 15px 0 25px;">Terima kasih. Tim PETAKRAYA akan segera menghubungi Anda via Email/WhatsApp untuk instruksi pembayaran dan aktivasi akun.</p>
+            <a href="index.html" class="btn btn-primary">Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Plans Data
+        const plans = {
+            'basic': {
+                name: 'Basic Plan',
+                priceDisplay: '150K',
+                period: '/analisis',
+                total: 'Rp 150.000',
+                features: ['1x Analisis Lahan', 'Laporan PDF Standar', 'Data Citra Resolusi Menengah', 'Estimasi Nilai Pasar']
+            },
+            'professional': {
+                name: 'Profesional Plan',
+                priceDisplay: '5 JT',
+                period: '/bulan',
+                total: 'Rp 5.000.000',
+                features: ['Unlimited Analisis', 'Laporan Premium (Editable)', 'Citra Citra HD + Historical', 'API Access', 'Support 24/7']
+            },
+            'enterprise': {
+                name: 'Enterprise Plan',
+                priceDisplay: 'Custom',
+                period: '',
+                total: 'Hubungi Kami',
+                features: ['Volume Tanpa Batas', 'White-Label Solution', 'Dedicated Account Manager', 'Custom AI Model', 'On-Premise Option']
+            }
+        };
+
+        // Init Flow
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const planKey = urlParams.get('plan') || 'basic'; // Default to basic
+            
+            const selectedPlan = plans[planKey] || plans['basic'];
+
+            // Update UI
+            document.getElementById('summaryName').innerText = selectedPlan.name;
+            document.getElementById('summaryPrice').innerText = selectedPlan.priceDisplay;
+            document.getElementById('summaryPeriod').innerText = selectedPlan.period;
+            document.getElementById('summaryTotal').innerText = selectedPlan.total;
+
+            const featureList = document.getElementById('summaryFeatures');
+            featureList.innerHTML = '';
+            selectedPlan.features.forEach(feat => {
+                const li = document.createElement('li');
+                li.innerHTML = `✓ ${feat}`;
+                featureList.appendChild(li);
+            });
+        });
+
+        // Payment Selection UI
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // Checkout Logic
+        function handleCheckout(e) {
+            e.preventDefault();
+            
+            // Validate? (HTML5 does it)
+            
+            // Show Success Modal
+            const modal = document.getElementById('successModal');
+            modal.classList.add('active');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

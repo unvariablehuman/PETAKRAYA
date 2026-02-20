@@ -1,0 +1,28 @@
+/* ===========================
+   RESPONSIVE TYPOGRAPHY
+   =========================== */
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem; /* Smaller on mobile */
+        letter-spacing: -0.02em;
+    }
+    
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    .section-title p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .section-title h2 {
+        font-size: 1.75rem;
+    }
+}

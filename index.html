@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PETAKRAYA - Insight Tanah Indonesia Berbasis Citra Satelit</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="logos.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive-typography.css">
+    <link rel="stylesheet" href="hero-modern.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="logos.png" alt="PETAKRAYA Logo" width="32" height="32" style="border-radius: 4px;">
+                    <div>PETAK<span>RAYA</span></div>
+                </a>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="active">Beranda</a>
+                    <a href="analysis.html">Analisis Tanah</a>
+                    <a href="report.html">Contoh Laporan</a>
+                    <a href="methodology.html">Metodologi</a>
+                </div>
+                <!-- Mobile menu hidden for MVP demo simplicity -->
+            </nav>
+        </div>
+    </header>
+
+    <!-- NEW Modern Hero Section -->
+    <section class="hero-modern">
+        <!-- Background Elements -->
+        <canvas id="heroParticles"></canvas>
+        <div class="hero-bg-layer"></div>
+        <div class="hero-visual"></div>
+        
+        <!-- Animated Hero Satellite - More Realistic Design -->
+        <div class="hero-satellite">
+            <svg width="140" height="auto" viewBox="0 0 140 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Metallic Body Gradient -->
+                    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#94a3b8" />
+                        <stop offset="50%" stop-color="#475569" />
+                        <stop offset="100%" stop-color="#1e293b" />
+                    </linearGradient>
+                    <!-- Solar Panel Realistic Texture -->
+                    <pattern id="solarPattern" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+                        <rect width="4" height="4" fill="#1e40af" />
+                        <path d="M 4 0 L 0 0 0 4" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    </pattern>
+                    <!-- Glows -->
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="1.5" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <!-- Scanning Beam Gradient -->
+                    <linearGradient id="beamGradient" x1="70" y1="60" x2="70" y2="180" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#2dd4bf" stop-opacity="0.4" />
+                        <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+
+                <!-- Solar Panels (Left & Right) with Detailed Texture -->
+                <rect x="5" y="30" width="40" height="20" fill="url(#solarPattern)" stroke="#0f172a" stroke-width="0.5" rx="1" />
+                <rect x="95" y="30" width="40" height="20" fill="url(#solarPattern)" stroke="#0f172a" stroke-width="0.5" rx="1" />
+                
+                <!-- Connection Arms -->
+                <rect x="45" y="38" width="10" height="4" fill="#64748b" />
+                <rect x="85" y="38" width="10" height="4" fill="#64748b" />
+
+                <!-- Main Satellite Bus (The central body) -->
+                <rect x="55" y="25" width="30" height="30" fill="url(#bodyGrad)" rx="2" />
+                
+                <!-- Gold Parabolic Antenna -->
+                <path d="M 60 55 Q 70 75 80 55" fill="#ca8a04" opacity="0.8" />
+                <circle cx="70" cy="55" r="5" fill="#eab308" />
+
+                <!-- Scanning Sensors/Lenses -->
+                <circle cx="62" cy="35" r="3" fill="#0ea5e9" opacity="0.6" filter="url(#glow)" />
+                <circle cx="78" cy="35" r="3" fill="#0ea5e9" opacity="0.6" filter="url(#glow)" />
+
+                <!-- Dynamic Signals -->
+                <circle class="signal-ping" cx="70" cy="70" r="10" stroke="#2dd4bf" stroke-width="1.5" />
+                <path class="scanning-beam" d="M70 60 L20 180 L120 180 Z" fill="url(#beamGradient)" opacity="0" />
+            </svg>
+        </div>
+        
+        <!-- Content Container (Centered Alignment) -->
+        <div class="container hero-content-wrapper">
+            <div class="hero-text-block">
+                <div class="reveal-mask">
+                    <p class="hero-kicker">★ Platform Analisis Lahan Berbasis AI</p>
+                </div>
+                
+                <div class="reveal-mask">
+                    <h1 class="hero-headline">
+                        <span class="line-1">Amankan</span>
+                    </h1>
+                </div>
+                <div class="reveal-mask">
+                    <h1 class="hero-headline">
+                        <span class="line-2">Investasi Properti Anda</span>
+                    </h1>
+                </div>
+                <div class="reveal-mask">
+                    <h1 class="hero-headline">
+                        <span class="line-sub">Dengan Data Satelit & AI</span>
+                    </h1>
+                </div>
+
+                <div class="reveal-mask">
+                    <p class="hero-subtext">
+                        Analisis kondisi lahan, deteksi risiko lingkungan, dan estimasi nilai properti — semua dalam satu platform berbasis citra satelit.
+                    </p>
+                </div>
+
+                <div class="hero-actions reveal-fade">
+                    <a href="analysis.html" class="btn btn-secondary">Mulai Analisis Gratis</a>
+                    <a href="methodology.html" class="btn btn-ghost-light">Pelajari Metodologi →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack / Trust Signals -->
+    <div class="tech-strip reveal">
+        <div class="container container-flex" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <p style="margin: 0; font-size: 0.8rem; font-weight: 700; color: #666; letter-spacing: 1px; flex-shrink: 0;">POWERED BY:</p>
+            <div class="tech-logos" style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
+                <span class="tech-item" style="color: #444; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7 8.7 2.7a2.5 2.5 0 0 0-3.4 0L2.7 5.3a2.5 2.5 0 0 0 0 3.4L7 13"/><path d="m17 11 4.3 4.3a2.5 2.5 0 0 1 0 3.4l-2.6 2.6a2.5 2.5 0 0 1-3.4 0L11 17"/><path d="m14 4 6 6"/><path d="m4 14 6 6"/></svg>
+                    Sentinel-2
+                </span>
+                <span class="tech-item" style="color: #444; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    Google Earth Engine
+                </span>
+                <span class="tech-item" style="color: #444; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M12 18a6 6 0 0 0 3-5 6 6 0 0 0-3-5 6 6 0 0 0-3 5 6 6 0 0 0 3 5"/></svg>
+                    TensorFlow
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Solusi Cerdas untuk Masalah Lahan</h2>
+                <p>Pendekatan berbasis teknologi untuk transparansi total.</p>
+            </div>
+            
+            <div class="features-grid reveal reveal-stagger">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="f-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </div>
+                    <h3>Transparansi Kondisi Lahan</h3>
+                    <p>Hindari risiko membeli lahan bermasalah. Kami menganalisis kondisi fisik terkini dan historis lahan menggunakan citra satelit resolusi tinggi.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="f-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                    </div>
+                    <h3>Deteksi Risiko Lingkungan</h3>
+                    <p>Identifikasi potensi banjir, longsor, dan perubahan tata guna lahan di sekitar lokasi secara otomatis berbasis data geospasial.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="f-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                    </div>
+                    <h3>Data Pendukung Valuasi</h3>
+                    <p>Dapatkan indikator objektif aksesibilitas dan perkembangan area sekitar sebagai referensi pendukung estimasi nilai wajar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="trust-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Dipercaya oleh Profesional Properti</h2>
+                <p>Apa kata pengguna PETAKRAYA tentang layanan kami.</p>
+            </div>
+
+            <div class="testimonial-slider reveal">
+                <!-- Mask for clipping cards -->
+                <div class="slider-mask">
+                    <div class="testimonial-track">
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"PETAKRAYA menghemat waktu verifikasi kami hingga 70%. Data satelit mereka sangat akurat dan visual report-nya memudahkan presentasi ke klien."</p>
+                        <div class="testimonial-author">
+                            <strong>Irfan Hakim, M.Si.</strong>
+                            <span>KJPP Hakim & Partners</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"Sebagai developer, kami terbantu sekali dengan fitur analisis risiko lingkungan. Sangat membantu proses pre-acquisition due diligence."</p>
+                        <div class="testimonial-author">
+                            <strong>Rina Kusuma</strong>
+                            <span>Property Developer, PT Nusantara Land</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"Platform yang sangat inovatif! Akhirnya ada solusi digital untuk verifikasi lahan yang transparan dan berbasis data objektif."</p>
+                        <div class="testimonial-author">
+                            <strong>Budi Santoso</strong>
+                            <span>Angel Investor & Property Enthusiast</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"Laporan PETAKRAYA sangat detail dan mudah dipahami. Klien kami jadi lebih yakin dalam membuat keputusan pembelian lahan."</p>
+                        <div class="testimonial-author">
+                            <strong>Dewi Anggraini, S.H.</strong>
+                            <span>Notaris & PPAT, Jakarta Selatan</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"Fitur monitoring perubahan lahannya luar biasa. Kami bisa melihat alih fungsi lahan dari tahun ke tahun, sangat berguna untuk due diligence."</p>
+                        <div class="testimonial-author">
+                            <strong>Ahmad Fauzi</strong>
+                            <span>Head of Acquisition, Ciputra Group</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="rating-stars">
+                            <svg width="80" height="16" viewBox="0 0 80 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 0L9.79611 5.52786H15.6085L10.9062 8.94427L12.7023 14.4721L8 11.0557L3.29772 14.4721L5.09383 8.94427L0.391548 5.52786H6.20389L8 0Z" fill="#FFC107"/>
+                                <path d="M24 0L25.7961 5.52786H31.6085L26.9062 8.94427L28.7023 14.4721L24 11.0557L19.2977 14.4721L21.0938 8.94427L16.3915 5.52786H22.2039L24 0Z" fill="#FFC107"/>
+                                <path d="M40 0L41.7961 5.52786H47.6085L42.9062 8.94427L44.7023 14.4721L40 11.0557L35.2977 14.4721L37.0938 8.94427L32.3915 5.52786H38.2039L40 0Z" fill="#FFC107"/>
+                                <path d="M56 0L57.7961 5.52786H63.6085L58.9062 8.94427L60.7023 14.4721L56 11.0557L51.2977 14.4721L53.0938 8.94427L48.3915 5.52786H54.2039L56 0Z" fill="#FFC107"/>
+                                <path d="M72 0L73.7961 5.52786H79.6085L74.9062 8.94427L76.7023 14.4721L72 11.0557L67.2977 14.4721L69.0938 8.94427L64.3915 5.52786H70.2039L72 0Z" fill="#FFC107"/>
+                            </svg>
+                        </div>
+                        <p class="testimonial-text">"Sebagai bank, kami membutuhkan data objektif untuk menilai jaminan lahan. PETAKRAYA memberikan lapisan verifikasi tambahan yang sangat bernilai."</p>
+                        <div class="testimonial-author">
+                            <strong>Sari Wulandari</strong>
+                            <span>Risk Analyst, Bank Mandiri</span>
+                        </div>
+                    </div>
+                </div>
+
+                </div> <!-- End Mask -->
+                
+                <!-- Navigation -->
+                <div class="slider-nav">
+                    <button class="slider-btn slider-prev" aria-label="Previous">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <div class="slider-dots"></div>
+                    <button class="slider-btn slider-next" aria-label="Next">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Monitoring Perubahan Lahan</h2>
+                <p>Teknologi Time-Series kami melacak alih fungsi lahan secara akurat.</p>
+            </div>
+            
+            <div class="comparison-slider reveal-scale" id="compareSlider">
+                <!-- After Image (Top Layer) - Visually Left. Showing 2021 (Green) -->
+                <div class="c-img after" style="background-image: url('https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1200&q=80');">
+                    <span class="c-label c-label-left">2021: Lahan Hijau</span>
+                </div>
+                
+                <!-- Before Image (Bottom Layer) - Visually Right. Showing 2026 (Red) -->
+                <div class="c-img before" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80');">
+                    <span class="c-label c-label-right">2026: Area Terbangun</span>
+                </div>
+                
+                <!-- Scrubber Handle -->
+                <div class="c-handle">
+                    <div class="handle-circle">↔</div>
+                </div>
+            </div>
+            
+            <p class="text-center mt-3" style="font-size: 0.9rem; color: #666;">
+                *Geser slider untuk simulasi deteksi perubahan fungsi lahan (Land Use Change).
+            </p>
+        </div>
+    </section>
+
+    <!-- Impact Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Impact & Kredibilitas</h2>
+                <p>Teknologi PETAKRAYA telah memproses ribuan analisis lahan dengan tingkat akurasi tinggi.</p>
+            </div>
+
+            <div class="stats-grid reveal reveal-stagger">
+                <div class="stat-card">
+                    <div class="stat-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    </div>
+                    <div class="stat-value-row">
+                        <div class="stat-number" data-target="95">0</div>
+                        <div class="stat-suffix">%</div>
+                    </div>
+                    <div class="stat-label">Akurasi AI Detection</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16l4-8 4 4 4-8"/></svg>
+                    </div>
+                    <div class="stat-value-row">
+                        <div class="stat-number" data-target="1200">0</div>
+                        <div class="stat-suffix">+</div>
+                    </div>
+                    <div class="stat-label">Lahan Teranalisis</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div class="stat-value-row">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-suffix">Jam</div>
+                    </div>
+                    <div class="stat-label">Avg. Processing Time</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div class="stat-value-row">
+                        <div class="stat-number" data-target="8.5">0</div>
+                        <div class="stat-suffix">k</div>
+                    </div>
+                    <div class="stat-label">Total Nilai Aset Terverifikasi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works / Steps -->
+    <section class="how-it-works" style="background-color: #f8fbfd;">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Langkah Mudah Analisis</h2>
+                <p>Tiga langkah sederhana untuk mendapatkan insight lahan Anda.</p>
+            </div>
+            
+            <div class="process-flow reveal reveal-stagger">
+                <!-- Step 1 -->
+                <div class="process-step">
+                    <div class="step-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div class="step-badge">1</div>
+                    </div>
+                    <h4>Masukkan Lokasi</h4>
+                    <p>Input alamat atau titik koordinat lahan yang ingin Anda analisis dalam hitungan detik.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="process-step">
+                    <div class="step-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m7.8 16.2-2.9 2.9"/><path d="M6 12H2"/><path d="m7.8 7.8-2.9-2.9"/><circle cx="12" cy="12" r="3"/></svg>
+                        <div class="step-badge">2</div>
+                    </div>
+                    <h4>Processing AI</h4>
+                    <p>Sistem kami memproses citra satelit Sentinel-2 & data topografi secara real-time.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="process-step">
+                    <div class="step-icon-wrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                        <div class="step-badge">3</div>
+                    </div>
+                    <h4>Insight Laporan</h4>
+                    <p>Terima laporan komprehensif berisi analisis risiko, kondisi fisik, dan estimasi valuasi.</p>
+                </div>
+            </div>
+
+            <div class="text-center reveal" style="margin-top: 60px;">
+                <a href="analysis.html" class="btn btn-primary btn-lg glow-effect">Coba Analisis Sekarang</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Paket Layanan</h2>
+                <p>Pilih paket yang sesuai dengan kebutuhan Anda.</p>
+                <div class="text-center" style="margin-top: 20px;">
+                    <div style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 24px; background: #ffffff; border: 1px solid #edf2f7; border-radius: 50px; color: #475569; font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #059669; flex-shrink: 0;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        <span>Pembayaran Aman via Transfer Bank, E-Wallet, & Virtual Account</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-grid reveal reveal-stagger">
+                <!-- 1. Basic Lite (Startup) -->
+                <div class="pricing-card">
+                    <div class="plan-badge">Starter</div>
+                    <h3 class="plan-name">Basic Lite</h3>
+                    <div class="plan-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">350K</span>
+                        <span class="period">/analisis</span>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 24px; line-height: 1.6;">Pilihan tepat untuk pemula yang ingin mencoba analisis dasar.</p>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> 1 Lokasi Lahan</li>
+                        <li><span class="check">✓</span> Limited Insight Preview</li>
+                        <li class="disabled">No Historical Analysis</li>
+                        <li class="disabled">No Editable Report</li>
+                        <li><span class="check">✓</span> Layanan Standar</li>
+                    </ul>
+                    <a href="checkout.html?plan=basic-lite" class="btn btn-outline full-width" style="margin-top: auto;">Pilih Paket</a>
+                </div>
+
+                <!-- 2. Basic (Individual) -->
+                <div class="pricing-card">
+                    <div class="plan-badge">Individual</div>
+                    <h3 class="plan-name">Basic</h3>
+                    <div class="plan-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">950K</span>
+                        <span class="period">/analisis</span>
+                    </div>
+                    <div style="background: #f0f9ff; color: #0284c7; padding: 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; text-align: center;">★ Pilihan Favorit Individu</div>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> 1x Analisis Lahan Mendalam</li>
+                        <li><span class="check">✓</span> Laporan PDF Standar</li>
+                        <li><span class="check">✓</span> Citra Satelit Res. Menengah</li>
+                        <li><span class="check">✓</span> Analisis Risiko Dasar</li>
+                        <li><span class="check">✓</span> Estimasi Nilai Pasar</li>
+                    </ul>
+                    <a href="checkout.html?plan=basic" class="btn btn-outline full-width" style="margin-top: auto;">Pilih Paket</a>
+                </div>
+
+                <!-- 3. Profesional -->
+                <div class="pricing-card">
+                    <div class="plan-badge" style="background: #e0f2fe; color: #0369a1;">Business</div>
+                    <h3 class="plan-name">Profesional</h3>
+                    <div class="plan-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">8 JT</span>
+                        <span class="period">/bulan</span>
+                    </div>
+                    
+                    <div style="background: #e6fffa; color: #047857; padding: 6px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; display: inline-block;">
+                        Free 7-Day Trial
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 12px;">Coba fitur penuh tanpa biaya.</div>
+
+                    <div style="background: #eff6ff; color: #1d4ed8; padding: 8px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 20px; text-align: center;">
+                        <strong>Annual Plan:</strong> Pay 10, Get 12
+                    </div>
+
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> <strong>Unlimited</strong> Analisis</li>
+                        <li><span class="check">✓</span> Laporan Premium (Editable)</li>
+                        <li><span class="check">✓</span> Citra Satelit HD + Historical</li>
+                        <li><span class="check">✓</span> API Access Support</li>
+                    </ul>
+                    <a href="checkout.html?plan=professional" class="btn btn-primary full-width" style="margin-top: auto;">Mulai Free Trial</a>
+                </div>
+
+                <!-- 4. Enterprise -->
+                <div class="pricing-card">
+                    <div class="plan-badge">Custom Solution</div>
+                    <h3 class="plan-name">Enterprise</h3>
+                    <div class="plan-price">
+                        <span class="amount">Custom</span>
+                    </div>
+                    <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 24px; line-height: 1.6;">Solusi terintegrasi untuk organisasi skala besar.</p>
+                    <ul class="plan-features">
+                        <li><span class="check">✓</span> Volume Analisis Tanpa Batas</li>
+                        <li><span class="check">✓</span> White-Label Solution</li>
+                        <li><span class="check">✓</span> Custom AI Model Training</li>
+                        <li><span class="check">✓</span> Dedicated Account Manager</li>
+                    </ul>
+                    <a href="checkout.html?plan=enterprise" class="btn btn-outline full-width" style="margin-top: auto;">Hubungi Sales</a>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Tim Kami</h2>
+                <p>Mahasiswa multidisiplin yang berdedikasi menghadirkan transparansi di sektor properti Indonesia.</p>
+            </div>
+
+            <div class="team-list reveal reveal-stagger">
+                <div class="team-member tech-card">
+                    <div class="member-content">
+                        <h4>Brian Nicholas Tedjo</h4>
+                        <div class="role-line"></div>
+                        <p>CEO & Business Strategy</p>
+                    </div>
+                </div>
+                <div class="team-member tech-card">
+                    <div class="member-content">
+                        <h4>Sabrina Arfanindia Devi</h4>
+                        <div class="role-line"></div>
+                        <p>CTO & AI Engineer</p>
+                    </div>
+                </div>
+                <div class="team-member tech-card">
+                    <div class="member-content">
+                        <h4>Kristian Novan</h4>
+                        <div class="role-line"></div>
+                        <p>Geospatial Analyst</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Premium Footer -->
+    <footer class="footer-premium">
+        <div class="container">
+            <div class="footer-top">
+                <!-- Brand Column -->
+                <div class="footer-brand-col">
+                    <a href="#" class="footer-logo">
+                        <img src="logos.png" alt="PETAKRAYA Logo" width="32" height="32" style="border-radius: 6px;">
+                        <span>PETAKRAYA</span>
+                    </a>
+                    <p class="footer-mission">
+                        Platform geospatial intelligence terdepan yang menggabungkan AI dan citra satelit untuk transparansi lahan dan properti di Indonesia.
+                    </p>
+                    
+                    <!-- System Status Indicator -->
+                    <div class="system-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Prototype Pengembangan</span>
+                    </div>
+                </div>
+
+                <!-- Product Links -->
+                <div class="footer-nav-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="analysis.html">Land Analysis</a></li>
+                        <li><a href="#">Satellite API</a></li>
+                        <li><a href="#">Risk Assessment</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="#">Enterprise</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div class="footer-nav-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Careers</a> <span class="hiring-badge">Hiring</span></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal / Utility -->
+                <div class="footer-nav-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Status</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2026 PETAKRAYA Spatial Intelligence. All Rights Reserved.
+                </div>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn"><svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a href="#" aria-label="Twitter"><svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                    <a href="#" aria-label="GitHub"><svg fill="currentColor" width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

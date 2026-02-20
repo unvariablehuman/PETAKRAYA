@@ -1,0 +1,266 @@
+
+/* =========================================
+   MODERN HERO SECTION (Geospatial/SaaS)
+   ========================================= */
+
+/* Particle Canvas */
+#heroParticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-modern {
+    position: relative;
+    width: 100%;
+    min-height: 95vh;
+    display: flex;
+    align-items: flex-end; /* Bottom alignment */
+    padding-top: 120px; /* Safe space for navbar */
+    padding-bottom: 80px;
+    overflow: hidden;
+    background-color: #0b1120;
+    color: #fff;
+    text-align: left; /* Left alignment */
+}
+
+/* Background Layers */
+.hero-bg-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Gradient: Left (Dark) -> Right (Transparent) for text readability */
+    background: linear-gradient(
+        90deg, 
+        rgba(11, 17, 32, 1) 0%, 
+        rgba(11, 17, 32, 0.95) 35%, 
+        rgba(11, 17, 32, 0.4) 100%
+    );
+}
+
+/* Visual Element (Reverted to Image Background) */
+.hero-visual {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-image: url('PETA_INDONESIA.webp');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6; /* Slight transparency to blend with dark bg */
+}
+
+/* Satellite Animation with 3D feel */
+.hero-satellite {
+    position: absolute;
+    top: 15%;
+    left: -150px;
+    z-index: 5;
+    pointer-events: none;
+    animation: satelliteOrbital3D 50s linear infinite;
+    filter: drop-shadow(0 0 15px rgba(45, 212, 191, 0.4));
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.hero-satellite svg {
+    animation: satelliteFloat3D 12s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes satelliteOrbital3D {
+    0% { 
+        left: -200px; 
+        top: 15%;
+        transform: translateZ(-200px) rotateY(10deg);
+        opacity: 0.4;
+    }
+    15% {
+        opacity: 1;
+    }
+    50% { 
+        transform: translateZ(100px) rotateY(-5deg);
+        top: 25%;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% { 
+        left: 110vw; 
+        top: 45%;
+        transform: translateZ(-150px) rotateY(-20deg);
+        opacity: 0;
+    }
+}
+
+@keyframes satelliteFloat3D {
+    0%, 100% { 
+        transform: rotateX(10deg) rotateY(5deg) rotateZ(2deg) translateY(0); 
+    }
+    50% { 
+        transform: rotateX(-5deg) rotateY(-10deg) rotateZ(-3deg) translateY(-15px); 
+    }
+}
+
+.signal-ping {
+    animation: ping 3s ease-in-out infinite;
+}
+
+@keyframes ping {
+    0% { r: 4; opacity: 1; stroke-width: 2; }
+    100% { r: 25; opacity: 0; stroke-width: 0.5; }
+}
+
+@keyframes beamFlash {
+    0%, 40%, 60%, 100% { opacity: 0; }
+    45%, 55% { opacity: 1; }
+}
+
+/* Hide SVG since we use background image now */
+.sat-anim {
+    display: none;
+}
+
+/* Content Container */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+}
+
+.hero-text-block {
+    max-width: 750px;
+    margin: 0;
+}
+
+/* Typography Scale */
+.hero-kicker {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2dd4bf;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    background: rgba(45, 212, 191, 0.1);
+    border: 1px solid rgba(45, 212, 191, 0.2);
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-headline {
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.hero-headline .line-1 {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    color: #f8fafc;
+    letter-spacing: -1px;
+}
+
+.hero-headline .line-2 {
+    display: block; /* Back to block for impact */
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    color: #ccfbf1;
+    text-shadow: 0 0 30px rgba(45, 212, 191, 0.3);
+    background: linear-gradient(to right, #ffffff, #99f6e4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.25em; 
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.hero-headline .line-sub {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2dd4bf;
+    letter-spacing: 0.5px;
+    margin-top: 20px;
+    opacity: 0.95;
+    text-transform: uppercase;
+}
+
+.hero-subtext {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #94a3b8;
+    margin: 0 0 2.5rem 0;
+    max-width: 550px;
+}
+
+/* Buttons */
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+}
+
+.btn-ghost-light {
+    background: transparent;
+    color: #cbd5e1;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-ghost-light:hover {
+    color: #fff;
+    transform: translateX(5px);
+}
+
+/* Mask for animation reveal */
+.reveal-mask {
+    overflow: hidden; /* Important for "slide up from nothing" effect */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-modern {
+        min-height: auto;
+        padding-top: 120px;
+        align-items: center; /* Center vertically on mobile */
+        text-align: left;
+    }
+    
+    .hero-bg-layer {
+        background: linear-gradient(
+            180deg, 
+            rgba(11, 17, 32, 0.95) 20%, 
+            rgba(11, 17, 32, 0.8) 100%
+        );
+    }
+    
+    .hero-satellite {
+        width: 150px;
+        transform: scale(0.6) !important;
+        opacity: 0.3 !important;
+        top: 10% !important;
+        right: 0 !important;
+    }
+    
+    .hero-text-block {
+        margin-top: 20px;
+    }
+}
