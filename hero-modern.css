@@ -251,6 +251,19 @@
             rgba(11, 17, 32, 0.8) 100%
         );
     }
+
+    .hero-headline .line-1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-headline .line-2 {
+        font-size: 1.1em;
+    }
+    
+    .hero-subtext {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
     
     .hero-satellite {
         width: 150px;
@@ -262,5 +275,16 @@
     
     .hero-text-block {
         margin-top: 20px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+        text-align: center;
     }
 }

@@ -274,6 +274,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSlider();
             }, 5000);
         });
+
+        // Touch Swipe Support for Mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            clearInterval(autoSlide); // Stop auto-slide on interaction
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                const maxIndex = Math.max(0, cards.length - cardsPerView);
+                if (diff > 0) {
+                    // Swiped Left -> Next
+                    if (currentIndex < maxIndex) {
+                        currentIndex++;
+                        updateSlider();
+                    }
+                } else {
+                    // Swiped Right -> Previous
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateSlider();
+                    }
+                }
+            }
+        }
     }
 
     /* =========================================
@@ -283,6 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (compareSlider) {
         const handle = compareSlider.querySelector('.c-handle');
         const afterImg = compareSlider.querySelector('.c-img.after');
+        const label2021 = document.getElementById('label-2021');
+        const label2026 = document.getElementById('label-2026');
         
         let isDragging = false;
         let targetPercent = 50;
@@ -296,10 +334,41 @@ document.addEventListener('DOMContentLoaded', () => {
             if (Math.abs(delta) > 0.05) {
                 afterImg.style.clipPath = `inset(0 ${100 - currentPercent}% 0 0)`;
                 handle.style.left = currentPercent + '%';
+                
+                // STRICT TOGGLE: Hanya satu label yang boleh eksis di atas 50%
+                if (label2021 && label2026) {
+                    if (currentPercent > 50.1) {
+                        label2021.style.opacity = "1";
+                        label2021.style.visibility = "visible";
+                        label2026.style.opacity = "0";
+                        label2026.style.visibility = "hidden";
+                    } else if (currentPercent < 49.9) {
+                        label2021.style.opacity = "0";
+                        label2021.style.visibility = "hidden";
+                        label2026.style.opacity = "1";
+                        label2026.style.visibility = "visible";
+                    }
+                }
+
                 requestAnimationFrame(updateSlider);
             } else {
                 afterImg.style.clipPath = `inset(0 ${100 - targetPercent}% 0 0)`;
                 handle.style.left = targetPercent + '%';
+                
+                if (label2021 && label2026) {
+                    if (targetPercent > 50) {
+                        label2021.style.opacity = "1";
+                        label2021.style.visibility = "visible";
+                        label2026.style.opacity = "0";
+                        label2026.style.visibility = "hidden";
+                    } else {
+                        label2021.style.opacity = "0";
+                        label2021.style.visibility = "hidden";
+                        label2026.style.opacity = "1";
+                        label2026.style.visibility = "visible";
+                    }
+                }
+
                 rafActive = false;
             }
         }
@@ -376,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            mobileMenuBtn.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('is-active');
         });
     }
 
